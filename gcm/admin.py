@@ -1,10 +1,13 @@
 # -*- encoding: utf-8 -*-
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from gcm.models import Device
+from gcm.models import Device, Group
+
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ["name", "slug"]
 
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ['dev_id', 'name', 'modified_date', 'is_active']
+    list_display = ['dev_id', 'name', 'modified_date', 'group', 'is_active']
     search_fields = ('dev_id', 'name')
     list_filter = ['is_active']
     date_hierarchy = 'modified_date'
@@ -18,4 +21,5 @@ class DeviceAdmin(admin.ModelAdmin):
     send_test_message.short_description = _("Send test message")
 
 
+admin.site.register(Group, GroupAdmin)
 admin.site.register(Device, DeviceAdmin)
