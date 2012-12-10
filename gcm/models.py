@@ -4,8 +4,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from gcm.api import send_gcm_message
-from content_utils.utils import batch
 
+def batch(iterable, size):
+    sourceiter = iter(iterable)
+    while True:
+        batchiter = islice(sourceiter, size)
+        yield chain([batchiter.next()], batchiter)
 
 class DeviceManager(models.Manager):
     def send_message_to_all(self, msg, article_id=None):
